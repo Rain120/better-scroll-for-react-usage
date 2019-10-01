@@ -1,0 +1,161 @@
+import * as React from 'react';
+import classnames from 'classnames';
+import BScroll from 'better-scroll';
+import isEqual from 'lodash.isequal';
+import { ScrollProps } from './types'
+
+export interface BScrollProps {
+  className: string;
+  options: ScrollProps;
+}
+
+export default class BScroll extends React.Component<BScrollProps> {
+  
+  static defaultProps = {
+    options: {
+      data: [],
+      probeType: 3,
+      click: true,
+      listenScroll: {
+        beforeScroll: false,
+        scroll: true,
+        scrollEnd: false,
+      },
+      scrollY: true,
+      scrollX: false,
+      scrollbar: false,
+      pulldownRender: null,
+      pullUpLoad: false,
+      pullUpLoadRender: null,
+      startY: 0,
+      refreshDelay: 20,
+      freeScroll: false,
+      mouseWheel: false,
+      bounce: true,
+      slide: null,
+      beforeScrollStart: () => null,
+      scroll: () => null,
+      scrollEnd: () => null,
+    }
+  }
+
+  scrollWrapper;
+  scroll;
+
+  componentDidCatch(error, info) {
+    console.log(`componentDidCatch:${error}+${info}`);
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this._initScroll();
+    }, 16.7);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.data, this.props.options.data)) {
+      this.refresh();
+    }
+  }
+
+  componentWillUnmount() {
+    this.destroy();
+  }
+
+  _initScroll() {
+    let { options } = this.props;
+    if (!this.scrollWrapper) {
+      return;
+    }
+
+    this.scroll = new BScroll(this.scrollWrapper, options)
+
+    if (options.listenScroll && options.listenScroll.beforeScroll) {
+      this.on({
+        name: "beforeScrollStart",
+        handler: (...args) => options.beforeScrollStart && options.beforeScrollStart.apply(this.scroll, args)
+      });
+    }
+
+    if (options.listenScroll && options.listenScroll.scroll) {
+      this.on({
+        name: "scroll",
+        handler: (...args) => options.scroll && options.scroll.apply(this.scroll, args)
+      });
+    }
+
+    if (options.listenScroll && options.listenScroll.scrollEnd) {
+      this.on({
+        name: "scrollEnd",
+        handler: (...args) => options.scrollEnd && options.scrollEnd.apply(this.scroll, args)
+      });
+    }
+  }
+
+  _registerHooks(hooks) {
+    hooks.forEach(hook => {
+      this.scroll && this.scroll.on(hook.name, hook.handler);
+    });
+  }
+
+  disable() {
+    this.scroll && this.scroll.disable();
+  }
+
+  enable() {
+    this.scroll && this.scroll.enable();
+  }
+
+  refresh() {
+    this.scroll && this.scroll.refresh();
+  }
+
+  scrollTo(...args) {
+    this.scroll && this.scroll.scrollTo.apply(this.scroll, args);
+  }
+
+  scrollToElement(...args) {
+    this.scroll && this.scroll.scrollToElement.apply(this.scroll, args);
+  }
+
+  destroy() {
+    this.scroll && this.scroll.destroy();
+  }
+
+  // slider
+  getCurrentPage() {
+    this.scroll && this.scroll.goToPage.getCurrentPage();
+  }
+
+  goToPage(...args) {
+    this.scroll && this.scroll.goToPage.apply(this.scroll, args);
+  }
+
+  next(...args) {
+    this.scroll && this.scroll.next.apply(this.scroll, args);
+  }
+
+  prev(...args) {
+    this.scroll && this.scroll.prev.apply(this.scroll, args);
+  }
+
+  on(hooks) {
+    if (Array.isArray(hooks)) {
+      this._registerHooks(hooks);
+    } else {
+      this.scroll && this.scroll.on(hooks.name, hooks.handler);
+    }
+  }
+
+  public render() {
+    const { children, className } = this.props;
+    return (
+      <div
+        className={classnames("better-scroll-wrapper", className)}
+        ref={elem => (this.scrollWrapper = elem)}
+      >
+        {children}
+      </div>
+    );
+  }
+}
