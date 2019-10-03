@@ -1,2 +1,55 @@
-.about-wrapper {
+.slider-wrapper {
+  position: relative;
+  height: 200px;
+  .better-scroll-wrapper {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    .slider {
+      height: 200px;
+      box-sizing: border-box;
+      text-align: center;
+      white-space: nowrap;
+      font-size: 0;
+      .slider-item {
+        display: inline-block;
+        height: 200px;
+        width: 100%;
+        line-height: 200px;
+        text-align: center;
+        .img-wrapper {
+          display: block;
+          overflow: hidden;
+          text-decoration: none;
+          width: 100%;
+          img {
+            display: block;
+            height: 200px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .dots {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 12px;
+    text-align: center;
+    font-size: 0;
+    .dot {
+      display: inline-block;
+      margin: 0 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(24, 144, 255, 0.3);
+      &.active {
+        background: rgba(24, 144, 255, 0.8);
+      }
+    }
+  }
 }

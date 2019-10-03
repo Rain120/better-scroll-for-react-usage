@@ -4,13 +4,12 @@ import BScroll from 'better-scroll';
 import isEqual from 'lodash.isequal';
 import { ScrollProps } from './types'
 
-export interface BScrollProps {
-  className: string;
+export interface IScrollProps {
+  className?: string;
   options: ScrollProps;
 }
 
-export default class BScroll extends React.Component<BScrollProps> {
-  
+export default class Scroll extends React.Component<IScrollProps> {
   static defaultProps = {
     options: {
       data: [],
@@ -33,6 +32,8 @@ export default class BScroll extends React.Component<BScrollProps> {
       mouseWheel: false,
       bounce: true,
       slide: null,
+      momentum: true,
+      useTransition: false,
       beforeScrollStart: () => null,
       scroll: () => null,
       scrollEnd: () => null,
@@ -63,7 +64,7 @@ export default class BScroll extends React.Component<BScrollProps> {
   }
 
   _initScroll() {
-    let { options } = this.props;
+    const { options } = this.props;
     if (!this.scrollWrapper) {
       return;
     }
@@ -72,21 +73,21 @@ export default class BScroll extends React.Component<BScrollProps> {
 
     if (options.listenScroll && options.listenScroll.beforeScroll) {
       this.on({
-        name: "beforeScrollStart",
-        handler: (...args) => options.beforeScrollStart && options.beforeScrollStart.apply(this.scroll, args)
+        name: 'beforeScrollStart',
+        handler: (...args) => options.beforeScrollStart && options.beforeScrollStart.apply(this.scroll, args),
       });
     }
 
     if (options.listenScroll && options.listenScroll.scroll) {
       this.on({
-        name: "scroll",
+        name: 'scroll',
         handler: (...args) => options.scroll && options.scroll.apply(this.scroll, args)
       });
     }
 
     if (options.listenScroll && options.listenScroll.scrollEnd) {
       this.on({
-        name: "scrollEnd",
+        name: 'scrollEnd',
         handler: (...args) => options.scrollEnd && options.scrollEnd.apply(this.scroll, args)
       });
     }
@@ -147,11 +148,11 @@ export default class BScroll extends React.Component<BScrollProps> {
     }
   }
 
-  public render() {
+  render() {
     const { children, className } = this.props;
     return (
       <div
-        className={classnames("better-scroll-wrapper", className)}
+        className={classnames('better-scroll-wrapper', className)}
         ref={elem => (this.scrollWrapper = elem)}
       >
         {children}
