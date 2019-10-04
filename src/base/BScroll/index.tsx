@@ -35,8 +35,8 @@ export default class Scroll extends React.Component<IScrollProps> {
       momentum: true,
       useTransition: false,
       beforeScrollStart: () => null,
-      scroll: () => null,
-      scrollEnd: () => null,
+      scroll: (pos?: object) => null,
+      scrollEnd: (pos?: object) => null,
     }
   }
 

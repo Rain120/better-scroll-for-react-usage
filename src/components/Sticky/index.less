@@ -1,2 +1,56 @@
 .sticky-wrapper {
+  position: relative;
+  height: 550px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  .better-scroll-wrapper {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    .lists {
+      padding: 0;
+      margin: 0;
+      .list-wrapper {
+        position: relative;
+        .list {
+          .list-name {
+            .title {
+              margin: 0;
+              height: 30px;
+              line-height: 30px;
+              padding: 0 10px;
+              background: #409ae8;
+              color: #fff;
+            }
+          }
+          .sub-lists {
+            padding-left: 10px;
+            .sub-list {
+              .sub-list-name {
+                padding: 10px 0;
+              }
+            }
+          }
+        }
+      }
+    }
+    .hide-title {
+      display: none;
+    }
+    .fixed-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      .title {
+        margin: 0;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+        background: #409ae8;
+        color: #fff;
+      }
+    }
+  }
 }

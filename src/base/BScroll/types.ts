@@ -4,20 +4,24 @@ interface ListenScrollProps {
   scrollEnd?: boolean;
 }
 
+type NoopFunction = () => any;
+
+type ScrollFunction = (pos?: object) => any;
+
 export interface ScrollProps {
   data: object[];
-  probeType?: number;
+  probeType: number;
   click?: boolean;
   scrollY?: boolean;
   scrollX?: boolean;
   listenScroll?: ListenScrollProps;
   listenBeforeScroll?: boolean;
   direction?: string;
-  beforeScrollStart?: () => void;
-  scroll?: () => void;
-  scrollEnd?: () => void;
-  scrollbar?: () => void;
-  pullUpLoad?: () => void;
+  beforeScrollStart?: NoopFunction;
+  scroll?: ScrollFunction;
+  scrollEnd?: ScrollFunction;
+  scrollbar?: NoopFunction;
+  pullUpLoad?: NoopFunction;
   startY?: number;
   refreshDelay?: number;
   freeScroll?: boolean;

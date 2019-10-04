@@ -1,2 +1,103 @@
 .cascade-menu-wrapper {
+  display: flex;
+  height: 550px;
+  .cascade-left-menu {
+    position: relative;
+    width: 130px;
+    background: #f4f6fc;
+    overflow: hidden;
+    .left-better-scroll-wrapper {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      .left-lists {
+        .left-wrapper {
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          .left-name {
+            .title {
+              margin: 0;
+              padding: 0 10px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+  .cascade-right-menu {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    .right-better-scroll-wrapper {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      .right-lists {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        .right-lists-wrapper {
+          position: relative;
+          .right-list {
+            .right-list-name {
+              .title {
+                margin: 0;
+                height: 30px;
+                line-height: 30px;
+                padding: 0 10px;
+                background: #f3f5f7;
+              }
+            }
+            .lists {
+              padding-left: 10px;
+              .list {
+                .list-name {
+                  padding: 10px 0;
+                }
+              }
+            }
+          }
+        }
+      }
+      .hide-title {
+        display: none;
+      }
+      .fixed-title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        .title {
+          margin: 0;
+          margin-top: -1px;
+          height: 30px;
+          line-height: 30px;
+          padding: 0 10px;
+          background: #f3f5f7;
+          border: 1px solid #f3f5f7;
+        }
+      }
+    }
+  }
+  .left-title-active,
+  .right-title-active {
+    position: relative;
+    background-color: #fff;
+    font-weight: bold;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      border-right: 3px solid #6c87fc;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
 }

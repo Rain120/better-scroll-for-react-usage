@@ -1,0 +1,36 @@
+.slide-menu-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  .better-scroll-wrapper {
+    position: relative;
+    margin: 0 5px;
+    .slide-menus {
+      height: 35px;
+      line-height: 35px;
+      box-sizing: content-box;
+      margin: 0;
+      .menu-wrapper {
+        display: inline-flex;
+        width: 80px;
+        .menu {
+          width: 100%;
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .active {
+      display: inline-block;
+      position: absolute;
+      top: 33px;
+      left: 10px;
+      width: 60px;
+      height: 2px;
+      background: rgba(255, 0, 0, 1);
+      transition: left 1.2s cubic-bezier(0.23, 1, 0.32, 1) 80ms;
+    }
+  }
+}

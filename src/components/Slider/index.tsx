@@ -4,29 +4,6 @@ import isEqual from 'lodash.isequal';
 import BScroll from 'base/BScroll';
 import './index.less';
 
-const data = [
-  {
-    href: '#',
-    alt: '1',
-    src: 'http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/750/h/750'
-  },
-  {
-    href: '#',
-    alt: '2',
-    src: 'http://fuss10.elemecdn.com/e/c6/f348e811772016ae24e968238bcbfjpeg.jpeg?imageView2/1/w/750/h/750'
-  },
-  {
-    href: '#',
-    alt: '3',
-    src: 'http://fuss10.elemecdn.com/e/a3/5317c68dd618929b6ac05804e429ajpeg.jpeg?imageView2/1/w/750/h/750'
-  },
-  {
-    href: '#',
-    alt: '4',
-    src: 'http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/750/h/750'
-  }
-]
-
 export interface SliderProps {
   data: object[];
   className?: string;
@@ -115,7 +92,7 @@ export default class Slider extends React.Component<SliderProps> {
 
   render() {
     const { currentPageIndex } = this.state;
-    const { className, } = this.props;
+    const { className, data } = this.props;
     console.log(data);
     return (
       <div className={classnames('slider-wrapper', className)}>
@@ -133,18 +110,16 @@ export default class Slider extends React.Component<SliderProps> {
               loop: true,
               threshold: 100,
             },
-
           }}
         >
           <div className='slider' ref={elem => (this.sliderGroup = elem)}>
-            {data.map((img, key) => (
+            {data.map((img: any, key: number) => (
               <div className='slider-item' key={`img-${key}`}>
                 <a className='img-wrapper' href={img.href}>
                   <img src={img.src} alt={img.alt} />
                 </a>
               </div>
-            )
-            )}
+            ))}
           </div>
           <div className='dots'>
             {data.map((img, key) => (

@@ -24,5 +24,6 @@
     value-list-max-empty-lines: null,
     unit-case: null,
     color-hex-case: null,
+    no-descending-specificity: null,
   }
 }
