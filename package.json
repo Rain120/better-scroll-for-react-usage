@@ -2,6 +2,15 @@
   "name": "react-universal-template",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rain120/better-scroll-for-react-usage"
+  },
+  "homepage": "https://rain120.github.io/better-scroll-for-react-usage/",
+  "keywords": [
+    "better-scroll",
+    "react"
+  ],
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
