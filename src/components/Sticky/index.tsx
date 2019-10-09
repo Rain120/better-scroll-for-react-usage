@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import BScroll from 'base/BScroll';
+import Scroll from 'base/Scroll';
 import './index.less';
 
 export interface StickyProps {
@@ -119,7 +119,7 @@ export default class Sticky extends React.Component<StickyProps> {
 
     return (
       <div className={classnames('sticky-wrapper', this.props.className)}>
-        <BScroll
+        <Scroll
           ref={(elem: any) => (this.bsRef = elem)}
           options={{
             data,
@@ -163,7 +163,7 @@ export default class Sticky extends React.Component<StickyProps> {
           >
             <h3 className='title'>{this.fixedTitle()}</h3>
           </div>
-        </BScroll>
+        </Scroll>
       </div>
     );
   }

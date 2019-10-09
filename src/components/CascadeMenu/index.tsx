@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import BScroll from 'base/BScroll';
+import Scroll from 'base/Scroll';
 import './index.less';
 
 export interface CascadeMenuProps {
@@ -162,7 +162,7 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
           className='cascade-left-menu'
           ref={(elem: any) => (this.sliderLeftGroup = elem)}
         >
-          <BScroll
+          <Scroll
             className='left-better-scroll-wrapper'
             ref={(elem: any) => (this.leftBSref = elem)}
             options={{
@@ -193,13 +193,13 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
                 </li>
               ))}
             </ul>
-          </BScroll>
+          </Scroll>
         </div>
         <div
           className='cascade-right-menu'
           ref={(elem: any) => (this.sliderRightGroup = elem)}
         >
-          <BScroll
+          <Scroll
             className='right-better-scroll-wrapper'
             ref={(elem: any) => (this.rightBSref = elem)}
             options={{
@@ -248,7 +248,7 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
                 </h3>
               </div>
             }
-          </BScroll>
+          </Scroll>
         </div>
       </div>
     );

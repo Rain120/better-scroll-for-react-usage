@@ -58,7 +58,7 @@ export default class Index extends React.Component<IndexProps> {
     return (
       <Tabs
         className='index-wrapper'
-        defaultActiveKey='CascadeMenu'
+        defaultActiveKey='Slider'
         onChange={() => null}
         type='card'>
           {

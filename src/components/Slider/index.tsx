@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import isEqual from 'lodash.isequal';
-import BScroll from 'base/BScroll';
+import Scroll from 'base/Scroll';
 import './index.less';
 
 export interface SliderProps {
@@ -96,7 +96,7 @@ export default class Slider extends React.Component<SliderProps> {
     console.log(data);
     return (
       <div className={classnames('slider-wrapper', className)}>
-        <BScroll
+        <Scroll
           options={{
             data,
             scrollX: true,
@@ -131,7 +131,7 @@ export default class Slider extends React.Component<SliderProps> {
               />
             ))}
           </div>
-        </BScroll>
+        </Scroll>
       </div>
     );
   }

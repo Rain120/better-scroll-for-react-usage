@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import isEqual from 'lodash.isequal';
-import BScroll from 'base/BScroll';
+import Scroll from 'base/Scroll';
 import './index.less';
 
 export interface SlideMenuProps {
@@ -74,7 +74,7 @@ export default class SlideMenu extends React.Component<SlideMenuProps> {
     const { currentIndex } = this.state;
     return (
       <div className={classnames('slide-menu-wrapper', this.props.className)}>
-        <BScroll
+        <Scroll
           ref={(elem: any) => (this.slider = elem)}
           options={{
             data,
@@ -105,7 +105,7 @@ export default class SlideMenu extends React.Component<SlideMenuProps> {
                   )
               )}
           </ul>
-        </BScroll>
+        </Scroll>
       </div>
     );
   }
