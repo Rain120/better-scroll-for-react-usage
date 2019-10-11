@@ -23,6 +23,7 @@ jobs:
     - name: npm install, build
       run: |
         npm install
+        npm run changelog
         npm run build
       env:
         CI: true
