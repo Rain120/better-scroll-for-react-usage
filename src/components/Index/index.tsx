@@ -4,9 +4,11 @@ import { Tabs } from 'antd';
 import CascadeMenu from 'components/CascadeMenu';
 import SlideMenu from 'components/SlideMenu';
 import Slider from 'components/Slider';
+import Singer from 'components/Singer';
 import Sticky from 'components/Sticky';
 
 import sell from 'apis/sell.json';
+import singer from 'apis/singers.json';
 import './index.less';
 
 const { TabPane } = Tabs;
@@ -41,6 +43,14 @@ export const menus = [
     },
   },
   {
+    name: 'Singer',
+    component: props => <Singer {...props} />,
+    props: {
+      className: '',
+      data: singer.singers,
+    },
+  },
+  {
     name: 'Sticky',
     component: props => <Sticky {...props} />,
     props: {
@@ -58,7 +68,7 @@ export default class Index extends React.Component<IndexProps> {
     return (
       <Tabs
         className='index-wrapper'
-        defaultActiveKey='Slider'
+        defaultActiveKey='Singer'
         onChange={() => null}
         type='card'>
           {

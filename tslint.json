@@ -32,7 +32,7 @@
     ],
     "new-parens": true,
     "no-arg": true,
-    "no-bitwise": true,
+    "no-bitwise": false,
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": [true, 2],
     "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],

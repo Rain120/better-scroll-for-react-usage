@@ -1,0 +1,104 @@
+.singer-wrapper {
+  position: relative;
+  height: 550px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  .better-scroll-wrapper {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    .lists {
+      padding: 0;
+      margin: 0;
+      .list-wrapper {
+        position: relative;
+        .list {
+          .list-name {
+            .title {
+              margin: 0;
+              height: 30px;
+              line-height: 30px;
+              padding: 0 10px;
+              background: #409ae8;
+              color: #fff;
+            }
+          }
+          .sub-lists {
+            padding-left: 10px;
+            .sub-list {
+              margin: 10px 0;
+              .sub-list-img {
+                display: inline-block;
+                width: 32px;
+                height: 32px;
+                img {
+                  border-radius: 50%;
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+              .sub-list-name {
+                display: inline-block;
+                margin: 0 20px;
+                padding: 10px 0;
+              }
+            }
+          }
+        }
+      }
+    }
+    .hide-title {
+      display: none;
+    }
+    .fixed-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      .title {
+        margin: 0;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+        background: #409ae8;
+        color: #fff;
+      }
+    }
+  }
+  .current-key-wrapper {
+    background: rgba(0, 0, 0, .1);
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .current-key {
+      text-align: center;
+      vertical-align: middle;
+      font-size: 60px;
+      color: #fff;
+    }
+  }
+  .right-side-bar {
+    width: 20px;
+    border-radius: 10px;
+    padding: 15px 0;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    background: #e0e4e4;
+    .side-bar {
+      cursor: pointer;
+      color: #5d5a5a;
+      text-align: center;
+      &.side-bar-active {
+        color: #fff;
+      }
+    }
+  }
+}
