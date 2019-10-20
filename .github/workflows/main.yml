@@ -20,9 +20,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
-    - name: Checkout Master
-      uses: actions/checkout@master
       
     - name: npm install, build
       uses: rain120/better-scroll-for-react-usage@master
