@@ -130,7 +130,7 @@ export default class Sticky extends React.Component<StickyProps> {
               scroll: true,
               scrollEnd: true
             },
-            scroll: (pos: any) => this._scroll(pos.y),
+            scroll: (pos: { y: number }) => this._scroll(pos.y),
           }}
         >
           <ul className='lists'>

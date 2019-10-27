@@ -20,7 +20,7 @@ export default class Scroll extends React.Component<IScrollProps> {
         scroll: true,
         scrollEnd: false,
       },
-      scrollY: true,
+      scrollY: false,
       scrollX: false,
       scrollbar: false,
       pulldownRender: null,
@@ -42,6 +42,7 @@ export default class Scroll extends React.Component<IScrollProps> {
 
   scrollWrapper;
   scroll;
+  TIMER: number = +(1000 / 60).toFixed(2);
 
   componentDidCatch(error, info) {
     console.log(`componentDidCatch:${error}+${info}`);
@@ -50,7 +51,7 @@ export default class Scroll extends React.Component<IScrollProps> {
   componentDidMount() {
     setTimeout(() => {
       this._initScroll();
-    }, 16.7);
+    }, this.TIMER);
   }
 
   componentDidUpdate(prevProps) {
@@ -153,7 +154,7 @@ export default class Scroll extends React.Component<IScrollProps> {
     return (
       <div
         className={classnames('better-scroll-wrapper', className)}
-        ref={elem => (this.scrollWrapper = elem)}
+        ref={(elem: any) => (this.scrollWrapper = elem)}
       >
         {children}
       </div>

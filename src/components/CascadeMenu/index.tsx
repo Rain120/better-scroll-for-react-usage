@@ -16,21 +16,21 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
 
   state = {
     scrollY: -1,
+    leftCurrentIndex: 0,
     currentIndex: 0,
     diff: -1,
     listHeight: [],
     fixedTop: 0
   };
 
-  leftBSref;
-  rightBSref;
+  rightBSRef;
 
   sliderLeftGroup;
   sliderRightGroup;
 
-  leftLists: any = [];
   rightLists: any = [];
 
+  leftMenusRef;
   fixTitleRef;
   selectedIndex;
   TIMER = 300;
@@ -38,18 +38,19 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
   LEFT_MENU_HEIGHT = 50;
 
   componentDidMount() {
-    const { scrollY } = this.state;
-    setTimeout(() => {
-      this._calculateHeight();
-      this.setState({ scrollY });
-    }, 20);
+    this._init();
   }
 
   componentWillUnmount() {
-    this.leftBSref.scroll.destroy();
-    this.rightBSref.scroll.destroy();
-    this.leftLists = [];
+    this.rightBSRef.scroll.destroy();
     this.rightLists = [];
+  }
+
+  _init() {
+    setTimeout(() => {
+      this.rightBSRef.scroll.refresh();
+      this._calculateHeight();
+    }, 20);
   }
 
   fixedTitle() {
@@ -102,7 +103,10 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
           listHeight.push(height);
         }
       }
-      this.setState({ listHeight });
+      this.setState({ listHeight }, () => {
+        const maxHeight = Math.max(...this.state.listHeight);
+        this.rightBSRef.scroll.maxScrollY = -maxHeight;
+      });
     }
   }
 
@@ -130,30 +134,32 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
     fn && fn();
   };
 
-  _scroll = (pos: any) => {
-    let { currentIndex, diff, scrollY } = this._scrollY(pos.y);
-    let leftLists = this.leftLists;
-    this.setState({ currentIndex, diff, scrollY }, () => {
+  _scroll = (posY: number) => {
+    let { currentIndex, diff, scrollY } = this._scrollY(posY);
+    let elem = this.leftMenusRef.children[currentIndex];
+    elem && elem.scrollIntoView({
+      behavior: 'instant',
+      block: 'center',
+    });
+    this.setState({ leftCurrentIndex: currentIndex, currentIndex, diff, scrollY }, () => {
       this._diff(diff);
       this.fixedTitle();
-      this._scrollTo(currentIndex, () => {
-        this.leftBSref.scroll.scrollToElement(leftLists[currentIndex], this.TIMER);
-      });
     });
   }
 
   selectMenu({ item, index }) {
-    let rightLists = this.rightLists;
-    this.setState({ currentIndex: index }, () => {
+    const { listHeight } = this.state;
+    this.setState({ leftCurrentIndex: index }, () => {
       this._scrollTo(index, () => {
-        this.rightBSref.scroll.scrollToElement(rightLists[index], this.TIMER)
+        this.rightBSRef.scroll.scrollTo(0, -listHeight[index], this.TIMER)
       })
     });
   }
 
   render() {
-    const { scrollY, currentIndex } = this.state;
+    const { scrollY, leftCurrentIndex } = this.state;
     const { data } = this.props;
+
     return (
       <div
         className={classnames('cascade-menu-wrapper', this.props.className)}
@@ -164,25 +170,17 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
         >
           <Scroll
             className='left-better-scroll-wrapper'
-            ref={(elem: any) => (this.leftBSref = elem)}
             options={{
               data,
+              scrollY: true,
               probeType: 3,
-              listenScroll: {
-                beforeScroll: true,
-                scroll: true,
-                scrollEnd: true
-              },
             }}
           >
-            <ul className='left-lists'>
+            <ul className='left-lists' ref={(elem: any) => (this.leftMenusRef = elem)}>
               {data.map((item: any, index: number) => (
                 <li
-                  ref={(elem: any) => {
-                    elem !== null && this.leftLists.push(elem);
-                  }}
                   className={classnames('left-wrapper', {
-                    'left-title-active': currentIndex === index
+                    'left-title-active': leftCurrentIndex === index
                   })}
                   onClick={() => this.selectMenu({ item, index })}
                   key={`left-${index}`}
@@ -201,7 +199,7 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
         >
           <Scroll
             className='right-better-scroll-wrapper'
-            ref={(elem: any) => (this.rightBSref = elem)}
+            ref={(elem: any) => (this.rightBSRef = elem)}
             options={{
               data,
               scrollY: true,
@@ -211,7 +209,7 @@ export default class CascadeMenu extends React.Component<CascadeMenuProps> {
                 scroll: true,
                 scrollEnd: true
               },
-              scroll: (pos: any) => this._scroll(pos.y),
+              scroll: (pos: { y: number }) => this._scroll(pos.y),
             }}
           >
             <ul className='right-lists'>

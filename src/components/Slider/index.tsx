@@ -22,7 +22,6 @@ export default class Slider extends React.Component<SliderProps> {
   };
 
   slider;
-  sliderGroup;
   playTimer = 0;
 
   componentDidMount() {
@@ -37,7 +36,7 @@ export default class Slider extends React.Component<SliderProps> {
         if (!this.slider) {
           return;
         }
-        this.slider.refresh();
+        this.slider.scroll.refresh();
       });
     }
   }
@@ -69,38 +68,38 @@ export default class Slider extends React.Component<SliderProps> {
   };
 
   _initSliderHooks = () => {
-    this.slider &&
-      this.slider.on([
-        {
-          name: 'beforeScrollStart',
-          handler: () => clearTimeout(this.playTimer)
-        },
-        {
-          name: 'scrollEnd',
-          handler: () => this._onScrollEnd()
-        },
-        {
-          name: 'slideWillChange',
-          handler: page => {
-            this.setState({
-              currentPageIndex: page.pageX
-            });
-          }
+    console.log(this.slider.scroll)
+    this.slider.scroll.on([
+      {
+        name: 'beforeScrollStart',
+        handler: () => clearTimeout(this.playTimer)
+      },
+      {
+        name: 'scrollEnd',
+        handler: () => this._onScrollEnd()
+      },
+      {
+        name: 'slideWillChange',
+        handler: page => {
+          this.setState({
+            currentPageIndex: page.pageX
+          });
         }
-      ]);
+      }
+    ]);
   };
 
   render() {
     const { currentPageIndex } = this.state;
     const { className, data } = this.props;
-    console.log(data);
+    console.log(this.slider);
     return (
       <div className={classnames('slider-wrapper', className)}>
         <Scroll
+          ref={(elem: any) => (this.slider = elem)}
           options={{
             data,
             scrollX: true,
-            scrollY: true,
             probeType: 2,
             useTransition: true,
             momentum: false,
@@ -112,7 +111,7 @@ export default class Slider extends React.Component<SliderProps> {
             },
           }}
         >
-          <div className='slider' ref={elem => (this.sliderGroup = elem)}>
+          <div className='slider'>
             {data.map((img: any, key: number) => (
               <div className='slider-item' key={`img-${key}`}>
                 <a className='img-wrapper' href={img.href}>

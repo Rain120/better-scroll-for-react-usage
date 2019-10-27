@@ -5,14 +5,20 @@
   .better-scroll-wrapper {
     position: relative;
     margin: 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
     .slide-menus {
       height: 35px;
       line-height: 35px;
       box-sizing: content-box;
       margin: 0;
+      display: inline-block;
       .menu-wrapper {
+        // width: 80px;
+        padding: 0 10px;
         display: inline-flex;
-        width: 80px;
+        justify-content: center;
+        cursor: pointer;
         .menu {
           width: 100%;
           text-align: center;
@@ -23,14 +29,21 @@
       }
     }
     .active {
-      display: inline-block;
       position: absolute;
-      top: 33px;
-      left: 10px;
-      width: 60px;
+      left: 0;
+      top: 30px;
+      bottom: 0;
       height: 2px;
+      z-index: 1;
+      box-sizing: border-box;
+      transform-origin: 0 0;
       background: rgba(255, 0, 0, 1);
-      transition: left 1.2s cubic-bezier(0.23, 1, 0.32, 1) 80ms;
+      // transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1) 100ms;
+      transition:
+        transform .3s cubic-bezier(0.645, 0.045, 0.355, 1),
+        width .3s cubic-bezier(.645, .045, .355, 1),
+        left .3s cubic-bezier(.645, .045, .355, 1),
+        -webkit-transform .3s cubic-bezier(.645, .045, .355, 1);
     }
   }
 }

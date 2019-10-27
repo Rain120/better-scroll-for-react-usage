@@ -31,7 +31,7 @@ export const menus = [
     component: props => <SlideMenu {...props} />,
     props: {
       className: '',
-      data: sell.goods.slice(0, 10),
+      data: sell.goods.slice(0, 15),
     },
   },
   {
@@ -68,7 +68,7 @@ export default class Index extends React.Component<IndexProps> {
     return (
       <Tabs
         className='index-wrapper'
-        defaultActiveKey='Singer'
+        defaultActiveKey='SlideMenu'
         onChange={() => null}
         type='card'>
           {

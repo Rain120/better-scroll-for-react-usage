@@ -139,6 +139,7 @@ export default class Singer extends React.Component<SingerProps> {
   }
 
   handleTouchStartEvent(e, index): void {
+    e.preventDefault();
     e.stopPropagation();
     let touch: any = {};
     let current: any = this.props.data[index]
@@ -157,6 +158,7 @@ export default class Singer extends React.Component<SingerProps> {
   }
 
   handleTouchMoveEvent(e, index: number): void {
+    e.preventDefault();
     let { touch } = this.state;
     let firstTouch = e.touches[0];
     let delta = (touch.y2 - touch.y1) / this.ANCHOR_HEIGHT | 0;
@@ -182,7 +184,7 @@ export default class Singer extends React.Component<SingerProps> {
               scroll: true,
               scrollEnd: true
             },
-            scroll: (pos: any) => this._scroll(pos.y),
+            scroll: (pos: { y: number }) => this._scroll(pos.y),
           }}
         >
           <ul className='lists'>

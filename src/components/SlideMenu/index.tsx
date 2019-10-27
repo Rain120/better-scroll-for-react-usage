@@ -15,38 +15,38 @@ export default class SlideMenu extends React.Component<SlideMenuProps> {
     data: []
   };
 
-  MENUWIDTH = 80;
-  DEFAULT_LEFT = 10;
   slider;
-  sliderGroup;
+  sliderGroup: any = [];
   activeMenu;
   timer;
+  TAB_PADDING: number = 10;
 
   state = {
+    listWidth: [],
+    tabWidth: 0,
+    tabsWidth: [],
     currentIndex: 0,
-    current: this.DEFAULT_LEFT
   };
 
   componentDidMount() {
     setTimeout(() => {
-      this.slider.refresh();
-      this.setState({
-        current: this.activeMenu.style.left
-      });
+      this._calculateWidth();
+      this.activeMenu.style.left = `${this.TAB_PADDING}px`;
+      this.slider.scroll.refresh();
     }, 20);
   }
 
   componentDidUpdate(nextProps, prevState) {
     if (!isEqual(nextProps.data, this.props.data)) {
       setTimeout(() => {
-        this.slider.refresh();
+        this.slider.scroll.refresh();
       }, 20);
 
       window.addEventListener('resize', () => {
         if (!this.slider) {
           return;
         }
-        this.slider.refresh();
+        this.slider.scroll.refresh();
       });
     }
   }
@@ -55,56 +55,95 @@ export default class SlideMenu extends React.Component<SlideMenuProps> {
     clearTimeout(this.timer);
   }
 
-  selectMenu = ({ menu, key }) => {
-    const value = key * this.MENUWIDTH;
-    this.setState({ currentIndex: key }, () => {
-      this.activeMenu.style.left = key === 0 ? this.DEFAULT_LEFT : value;
-      this.activeMenu.style.transition =
-        'all 1s cubic-bezier(0.23, 1, 0.32, 1) 80ms';
-      this.activeMenu.style.transform = `translateX(${value}px)`;
+  _calculateWidth() {
+    let listWidth: number[] = [];
+    let tabsWidth: number[] = [];
+    let tabWidth: number = 0;
+    if (this.sliderGroup) {
+      let lists = this.sliderGroup;
+      let width = 0;
+      listWidth.push(width);
+      for (const item of lists) {
+        if (item) {
+          width += item.clientWidth;
+          tabWidth += item.getBoundingClientRect().width;
+          listWidth.push(width);
+          tabsWidth.push(item.offsetWidth);
+        }
+      }
+      this.setState({ listWidth, tabWidth, tabsWidth });
+    }
+  }
+
+  selectMenu = ({ e, menu, index }) => {
+    e.stopPropagation();
+    const { tabsWidth } = this.state;
+    let tabWidth = tabsWidth[index];
+    let tabScrollDistance: number = 0;
+    // eslint-disable-next-line
+    tabsWidth.map((tw: number, idx: number): void => {
+      tabScrollDistance = idx < index ? tabScrollDistance + tw : tabScrollDistance;
     });
+    let elem = this.sliderGroup[index];
+    elem && elem.scrollIntoView({
+      behavior: 'instant',
+      block: 'center',
+    });
+    this.setState({ currentIndex: index, tabWidth }, () => {
+      this.activeMenu.style.transform = `translate3d(${tabScrollDistance}px, 0, 0)`;
+    })
   };
 
-  _scroll = pos => {
-    console.log(pos);
+  _scroll = posX => {
+    console.log(posX);
   };
 
   render() {
     const { data } = this.props;
-    const { currentIndex } = this.state;
+    const { tabWidth, tabsWidth, currentIndex } = this.state;
+
     return (
       <div className={classnames('slide-menu-wrapper', this.props.className)}>
         <Scroll
-          ref={(elem: any) => (this.slider = elem)}
+          ref={(elem: any): void => (this.slider = elem)}
           options={{
             data,
             probeType: 3,
             scrollX: true,
-            scrollY: false,
-            scroll: pos => this._scroll(pos),
+            scroll: (pos: { x: number }) => this._scroll(pos.x),
           }}
         >
-          <ul className='slide-menus' ref={elem => (this.sliderGroup = elem)}>
-            {data.map((menu: any, key: number) => (
+          <ul
+            className='slide-menus'
+            style={{
+              width: `${tabWidth}px`
+            }}
+          >
+            {data.map((menu: any, index: number) => (
               <li
                 className='menu-wrapper'
-                key={key}
-                onClick={() => this.selectMenu({ menu, key })}
+                style={{
+                  width: `${tabsWidth[index]}px`
+                }}
+                key={index}
+                ref={(elem: any) => (this.sliderGroup.push(elem))}
               >
-                <span className='menu'>{menu.name.slice(0, 5)}</span>
+                <span
+                  className='menu'
+                  onClick={e => this.selectMenu({ e, menu, index })}
+                >
+                  {menu.name.slice(0, 5)}
+                </span>
               </li>
             ))}
-            {data.map(
-                (menu, key) =>
-                  currentIndex === key && (
-                    <span
-                      className='active'
-                      key={key}
-                      ref={elem => (this.activeMenu = elem)}
-                    />
-                  )
-              )}
           </ul>
+          <div
+            className='active'
+            style={{
+              width: `${tabsWidth[currentIndex] - 2 * this.TAB_PADDING}px`
+            }}
+            ref={elem => this.activeMenu = elem}
+          />
         </Scroll>
       </div>
     );
